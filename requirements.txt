@@ -1,0 +1,5 @@
+numpy
+pandas
+stramlit
+zenml
+zenml[server]
