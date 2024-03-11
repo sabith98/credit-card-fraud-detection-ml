@@ -1,5 +1,5 @@
 numpy
 pandas
-stramlit
+streamlit
 zenml
 zenml[server]
