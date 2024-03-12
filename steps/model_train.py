@@ -4,6 +4,7 @@ from zenml import step
 
 from src.model_dev import LogisticRegressionModel
 from sklearn.base import RegressorMixin
+from sklearn.linear_model import LogisticRegression
 from .config import ModelNameConfig
 
 
@@ -14,7 +15,8 @@ def train_model(
     y_train: pd.DataFrame,
     y_test: pd.DataFrame,
     config: ModelNameConfig,
-) -> RegressorMixin:
+# ) -> RegressorMixin:
+) -> LogisticRegression:
     """
     Trains the model on the ingested data
 

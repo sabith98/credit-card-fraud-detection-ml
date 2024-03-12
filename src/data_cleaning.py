@@ -43,7 +43,10 @@ class DataDivideStrategy(DataStrategy):
         Divide data into train and test
         """
         try:
-            pass
+            X = data.drop(columns='Class', axis=1)
+            y = data['Class']
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=2)
+            return X_train, X_test, y_train, y_test
         except Exception as e:
             logging.error("Error in dividing data: {}".format(e))
             raise e
