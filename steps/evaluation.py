@@ -8,8 +8,13 @@ from sklearn.base import RegressorMixin
 from sklearn.linear_model import LogisticRegression
 from src.evaluation import Accuracy_score
 
+import mlflow
+from zenml.client import Client
 
-@step
+experiment_tracker = Client().active_stack.experiment_tracker
+
+
+@step(experiment_tracker=experiment_tracker.name)
 def evaluate_model(
     model: LogisticRegression,
     X_test: pd.DataFrame,
@@ -30,6 +35,7 @@ def evaluate_model(
 
         accuracy_score_class = Accuracy_score()
         accuracy_score = accuracy_score_class.calculate_score(y_test, prediction)
+        mlflow.log_metric("accuracy_score", accuracy_score)
 
         return (accuracy_score,)
     except Exception as e:

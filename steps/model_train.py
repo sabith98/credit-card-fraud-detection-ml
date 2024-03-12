@@ -7,15 +7,19 @@ from sklearn.base import RegressorMixin
 from sklearn.linear_model import LogisticRegression
 from .config import ModelNameConfig
 
+import mlflow
+from zenml.client import Client
 
-@step()
+experiment_tracker = Client().active_stack.experiment_tracker
+
+
+@step(experiment_tracker=experiment_tracker.name)
 def train_model(
     X_train: pd.DataFrame,
     X_test: pd.DataFrame,
     y_train: pd.DataFrame,
     y_test: pd.DataFrame,
     config: ModelNameConfig,
-# ) -> RegressorMixin:
 ) -> LogisticRegression:
     """
     Trains the model on the ingested data
@@ -29,6 +33,7 @@ def train_model(
     try:
         model = None
         if config.model_name == "LogisticRegression":
+            mlflow.sklearn.autolog()
             model = LogisticRegressionModel()
             trained_model = model.train(X_train, y_train)
             return trained_model
